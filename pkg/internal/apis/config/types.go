@@ -73,6 +73,7 @@ type Node struct {
 	/* Advanced fields */
 
         NetworkHost string `yaml:"networkHost,omitempty"`
+        Ip string `yaml:"ip,omitempty"`
 
 	// ExtraMounts describes additional mount points for the node container
 	// These may be used to bind a hostPath

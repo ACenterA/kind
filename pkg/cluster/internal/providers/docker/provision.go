@@ -172,9 +172,18 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
         if (hostmode) {
 		networkMode = "host"
 	}
+
+	ipaddrArgs := []string{}
+        if (node.Ip != "") {
+	  ipaddrArgs = append([]string{
+             "--ip", node.Ip,
+          })
+        }
+
 	fmt.Println("RUN ARGS OF ", name, " with networkMode Of ", networkMode, "\n")
 	args = append([]string{
 		"run",
+                "--restart", "unless-stopped", // always restart unless explictly stopped
 		"--hostname", name, // make hostname match container name
 		"--name", name, // ... and set the container name
 		// label the node with the role ID
@@ -200,6 +209,9 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
 		"--volume", "/lib/modules:/lib/modules:ro",
 		"--net", networkMode,
 	},
+		args...,
+	)
+	args = append(ipaddrArgs,
 		args...,
 	)
 
