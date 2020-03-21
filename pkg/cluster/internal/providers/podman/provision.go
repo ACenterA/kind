@@ -173,6 +173,7 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
           ipaddrArgs = append([]string{
              "--ip", node.Ip,
           })
+	  networkMode = node.Network
         }
 
 	fmt.Println("1 - RUN ARGS OF ", name, " with networkMode Of ", networkMode, "\n")
@@ -206,8 +207,8 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
 	},
 		args...,
 	)
-	args = append(ipaddrArgs,
-                args...
+	args = append(args,
+               ipaddrArgs...,
         )
 
 	// convert mounts and port mappings to container run args
