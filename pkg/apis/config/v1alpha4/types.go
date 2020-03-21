@@ -97,6 +97,8 @@ type Node struct {
 
 	/* Advanced fields */
 
+	NetworkHost string `yaml:"networkHost,omitempty"`
+
 	// TODO: cri-like types should be inline instead
 	// ExtraMounts describes additional mount points for the node container
 	// These may be used to bind a hostPath
