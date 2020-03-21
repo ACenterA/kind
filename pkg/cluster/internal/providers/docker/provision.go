@@ -172,6 +172,7 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
         if (hostmode) {
 		networkMode = "host"
 	}
+	fmt.Println("RUN ARGS OF ", name, " with networkMode Of ", networkMode, "\n")
 	args = append([]string{
 		"run",
 		"--hostname", name, // make hostname match container name
