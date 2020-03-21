@@ -75,6 +75,8 @@ type Node struct {
 	// If unset a default image will be used, see defaults.Image
 	Image string `yaml:"image,omitempty"`
 
+	NetworkHost string `yaml:"networkHost,omitempty"`
+
 	/* Advanced fields */
 
 	// TODO: cri-like types should be inline instead

@@ -93,7 +93,7 @@ func planCreation(cluster string, cfg *config.Cluster) (createContainerFuncs []f
 						ContainerPort: common.APIServerInternalPort,
 					},
 				)
-				args, err := runArgsForNode(node, cfg.Networking.IPFamily, name, genericArgs)
+				args, err := runArgsForNode(false, node, cfg.Networking.IPFamily, name, genericArgs)
 				if err != nil {
 					return err
 				}
@@ -101,7 +101,7 @@ func planCreation(cluster string, cfg *config.Cluster) (createContainerFuncs []f
 			})
 		case config.WorkerRole:
 			createContainerFuncs = append(createContainerFuncs, func() error {
-				args, err := runArgsForNode(node, cfg.Networking.IPFamily, name, genericArgs)
+				args, err := runArgsForNode(node.NetworkHost != "", node, cfg.Networking.IPFamily, name, genericArgs)
 				if err != nil {
 					return err
 				}
@@ -167,7 +167,11 @@ func commonArgs(cluster string, cfg *config.Cluster) ([]string, error) {
 	return args, nil
 }
 
-func runArgsForNode(node *config.Node, clusterIPFamily config.ClusterIPFamily, name string, args []string) ([]string, error) {
+func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.ClusterIPFamily, name string, args []string) ([]string, error) {
+        networkMode := "bridge"
+        if (hostmode) {
+		networkMode = "host"
+	}
 	args = append([]string{
 		"run",
 		"--hostname", name, // make hostname match container name
@@ -193,6 +197,7 @@ func runArgsForNode(node *config.Node, clusterIPFamily config.ClusterIPFamily, n
 		"--volume", "/var",
 		// some k8s things want to read /lib/modules
 		"--volume", "/lib/modules:/lib/modules:ro",
+		"--net", networkMode,
 	},
 		args...,
 	)
