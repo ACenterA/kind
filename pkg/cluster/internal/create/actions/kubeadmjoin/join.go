@@ -119,11 +119,9 @@ func joinWorkers(
 func runKubeadmJoin(logger log.Logger, node nodes.Node) error {
 	// run kubeadm join
 	// TODO(bentheelder): this should be using the config file
-	ip, _, _ := node.IP()
 	cmd := node.Command(
 		"kubeadm", "join",
 		// the join command uses the config file generated in a well known location
-		"--node-ip", ip,
 		"--config", "/kind/kubeadm.conf",
 		// preflight errors are expected, in particular for swap being enabled
 		// TODO(bentheelder): limit the set of acceptable errors
