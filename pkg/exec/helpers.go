@@ -18,6 +18,7 @@ package exec
 
 import (
 	"bufio"
+	"fmt"
 	"bytes"
 	"io"
 	"os"
@@ -68,6 +69,10 @@ func CombinedOutputLines(cmd Cmd) (lines []string, err error) {
 	scanner := bufio.NewScanner(&buff)
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
+	}
+	fmt.Println("Running here....\n")
+	if (err != nil) {
+		fmt.Println(buff.String())
 	}
 	return lines, err
 }
