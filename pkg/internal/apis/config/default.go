@@ -58,6 +58,9 @@ func SetDefaultsCluster(obj *Cluster) {
 			obj.Networking.PodSubnet = "fd00:10:244::/64"
 		}
 	}
+	if obj.Networking.DnsDomain == "" {
+		obj.Networking.DnsDomain = "cluster.local"
+	}
 	// default the service CIDR using the kubeadm default
 	// https://github.com/kubernetes/kubernetes/blob/746404f82a28e55e0b76ffa7e40306fb88eb3317/cmd/kubeadm/app/apis/kubeadm/v1beta2/defaults.go#L32
 	// Note: kubeadm is doing it already but this simplifies kind's logic

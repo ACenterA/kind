@@ -86,6 +86,7 @@ func (a *Action) Execute(ctx *actions.ActionContext) error {
 		APIServerAddress:     ctx.Config.Networking.APIServerAddress,
 		Token:                kubeadm.Token,
 		PodSubnet:            ctx.Config.Networking.PodSubnet,
+		DnsDomain:            ctx.Config.Networking.DnsDomain,
 		ServiceSubnet:        ctx.Config.Networking.ServiceSubnet,
 		ControlPlane:         true,
 		IPv6:                 ctx.Config.Networking.IPFamily == "ipv6",

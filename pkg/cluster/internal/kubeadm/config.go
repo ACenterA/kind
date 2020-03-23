@@ -56,6 +56,7 @@ type ConfigData struct {
 	// These auto-generated fields are available to Config templates,
 	// but not meant to be set by hand
 	DerivedConfigData
+	DnsDomain string
 }
 
 // DerivedConfigData fields are automatically derived by
@@ -154,6 +155,7 @@ nodeRegistration:
     fail-swap-on: "false"
     node-ip: "{{ .NodeAddress }}"
 networking:
+  dnsDomain: "{{ .DnsDomain }}"
   podSubnet: "{{ .PodSubnet }}"
 controllerManagerExtraArgs:
   enable-hostpath-provisioner: "true"
@@ -199,6 +201,7 @@ kubernetesVersion: {{.KubernetesVersion}}
 clusterName: "{{.ClusterName}}"
 controlPlaneEndpoint: "{{ .ControlPlaneEndpoint }}"
 networking:
+  dnsDomain: "{{ .DnsDomain }}"
   podSubnet: "{{ .PodSubnet }}"
   serviceSubnet: "{{ .ServiceSubnet }}"
 # we need nsswitch.conf so we use /etc/hosts
@@ -333,6 +336,7 @@ scheduler:
     bind-address: "::1"
     {{- end }}
 networking:
+  dnsDomain: "{{ .DnsDomain }}"
   podSubnet: "{{ .PodSubnet }}"
   serviceSubnet: "{{ .ServiceSubnet }}"
 ---
@@ -447,6 +451,7 @@ scheduler:
     bind-address: "::1"
     {{- end }}
 networking:
+  dnsDomain: "{{ .DnsDomain }}"
   podSubnet: "{{ .PodSubnet }}"
   serviceSubnet: "{{ .ServiceSubnet }}"
 ---

@@ -128,6 +128,8 @@ type Networking struct {
 	// If DisableDefaultCNI is true, kind will not install the default CNI setup.
 	// Instead the user should install their own CNI after creating the cluster.
 	DisableDefaultCNI bool `yaml:"disableDefaultCNI,omitempty"`
+	//
+	DnsDomain string `yaml:"dnsDomain,omitempty"`
 }
 
 // ClusterIPFamily defines cluster network IP family

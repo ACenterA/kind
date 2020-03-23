@@ -71,6 +71,7 @@ func convertv1alpha3Networking(in *v1alpha3.Networking, out *Networking) {
 	out.APIServerPort = in.APIServerPort
 	out.APIServerAddress = in.APIServerAddress
 	out.PodSubnet = in.PodSubnet
+	out.DnsDomain = in.DnsDomain
 	out.ServiceSubnet = in.ServiceSubnet
 	out.DisableDefaultCNI = in.DisableDefaultCNI
 }
