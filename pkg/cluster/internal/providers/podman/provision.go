@@ -170,10 +170,13 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
         ipaddrArgs := append([]string{
         })
         if (node.Ip != "") {
-          ipaddrArgs = append([]string{
-             "--ip", node.Ip,
-          })
 	  networkMode = node.Network
+	  if ((networkMode == "") || (networkMode == "host")) {
+	  } else {
+            ipaddrArgs = append([]string{
+               "--ip", node.Ip,
+            })
+          }
         }
 	if (networkMode == "") {
 		networkMode = "host"
