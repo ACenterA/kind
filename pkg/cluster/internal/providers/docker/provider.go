@@ -18,6 +18,7 @@ package docker
 
 import (
 	"fmt"
+	"os"
 	"net"
 	"path/filepath"
 	"strings"
@@ -157,8 +158,12 @@ func (p *Provider) GetAPIServerEndpoint(cluster string) (string, error) {
 	)
 	lines, err := exec.OutputLines(cmd)
 	if err != nil {
-		fmt.Println("Failed to get api server port, but lets use the static ip of 172.18.0.1")
-		return "172.18.0.1:6443", nil
+		fmt.Println("Failed to get api server port, but lets use the static ip of env API_CONTROL_OVERRIDE")
+		if (os.Getenv("API_CONTROL_OVERRIDE") == "") {
+			return "172.18.0.1:6443", nil
+		} else {
+			return os.Getenv("API_CONTROL_OVERRIDE"), nil
+		}
 		// return "", errors.Wrap(err, "failed to get api server port")
 	}
 	if len(lines) != 1 {

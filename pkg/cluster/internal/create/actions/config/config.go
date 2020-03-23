@@ -20,6 +20,7 @@ package config
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"strings"
 
 	"sigs.k8s.io/kind/pkg/cluster/constants"
@@ -56,7 +57,11 @@ func (a *Action) Execute(ctx *actions.ActionContext) error {
 	// front of the control-plane nodes
 	controlPlaneEndpoint, controlPlaneEndpointIPv6, err := nodeutils.GetControlPlaneEndpoint(allNodes)
 	if (controlPlaneEndpoint == ":6443") {
-		controlPlaneEndpoint = "172.18.0.1:6443"
+		if (os.Getenv("API_CONTROL_OVERRIDE") == "") {
+			controlPlaneEndpoint = "172.18.0.1:6443"
+		} else {
+			controlPlaneEndpoint = os.Getenv("API_CONTROL_OVERRIDE")
+		}
 	}
 	//if (os.GetEnv("API_CONTROL_OVERRIDE") != "") {
 	//  controlPlaneEndpoint = os.GetEnv("API_CONTROL_OVERRIDE")
@@ -205,7 +210,11 @@ func getKubeadmConfig(cfg *config.Cluster, data kubeadm.ConfigData, node nodes.N
 	nodeAddress, nodeAddressIPv6, err := node.IP()
 	fmt.Println(fmt.Sprintf(" Trying to get NodeAddress of..... node.IP for... %s \n", node.String()))
 	if (nodeAddress == "") {
-	  nodeAddress = "172.18.0.1"
+	  if (os.Getenv("API_CONTROL_OVERRIDE") == "") {
+	    nodeAddress = "172.18.0.1"
+	  } else {
+	    nodeAddress = strings.Split(os.Getenv("API_CONTROL_OVERRIDE"), ":")[0]
+	  }
 	}
 
 	if err != nil {
