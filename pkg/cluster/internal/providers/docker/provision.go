@@ -180,6 +180,9 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
           })
           networkMode = node.Network
         }
+        if (networkMode == "") {
+          networkMode = "host"
+	}
 
 	fmt.Println("RUN ARGS OF ", name, " with networkMode Of ", networkMode, "\n")
 	args = append([]string{
