@@ -19,6 +19,7 @@ package config
 
 import (
 	"bytes"
+	"fmt"
 	"strings"
 
 	"sigs.k8s.io/kind/pkg/cluster/constants"
@@ -196,6 +197,11 @@ func getKubeadmConfig(cfg *config.Cluster, data kubeadm.ConfigData, node nodes.N
 
 	// get the node ip address
 	nodeAddress, nodeAddressIPv6, err := node.IP()
+	fmt.Println(fmt.Sprintf(" Trying to get NodeAddress of..... node.IP for... %s \n", node.String()))
+	if (nodeAddress == "") {
+	  nodeAddress = "172.18.0.1"
+	}
+
 	if err != nil {
 		return "", errors.Wrap(err, "failed to get IP for node")
 	}

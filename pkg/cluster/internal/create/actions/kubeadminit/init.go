@@ -19,6 +19,7 @@ package kubeadminit
 
 import (
 	"strings"
+	// "os"
 
 	"sigs.k8s.io/kind/pkg/errors"
 	"sigs.k8s.io/kind/pkg/exec"
@@ -73,6 +74,7 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 	lines, err := exec.CombinedOutputLines(cmd)
 	ctx.Logger.V(3).Info(strings.Join(lines, "\n"))
 	if err != nil {
+		// os.exit(1)
 		return errors.Wrap(err, "failed to init node with kubeadm")
 	}
 

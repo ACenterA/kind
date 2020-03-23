@@ -70,10 +70,8 @@ func CombinedOutputLines(cmd Cmd) (lines []string, err error) {
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
-	fmt.Println("Running here....\n")
-	if (err != nil) {
-		fmt.Println(buff.String())
-	}
+	fmt.Println("1 - Running here....\n")
+	fmt.Println(buff.String())
 	return lines, err
 }
 
