@@ -180,6 +180,7 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
 	  } else {
 	    ipaddrArgs = append([]string{
                "--ip", node.Ip,
+               "--dns", "172.19.0.1",
             })
 	  }
         }
