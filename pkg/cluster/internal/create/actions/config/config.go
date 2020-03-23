@@ -55,6 +55,9 @@ func (a *Action) Execute(ctx *actions.ActionContext) error {
 	// get the control plane endpoint, in case the cluster has an external load balancer in
 	// front of the control-plane nodes
 	controlPlaneEndpoint, controlPlaneEndpointIPv6, err := nodeutils.GetControlPlaneEndpoint(allNodes)
+	if (controlPlaneEndpoint == ":6443") {
+		controlPlaneEndpoint = "172.18.0.1:6443"
+	}
 	//if (os.GetEnv("API_CONTROL_OVERRIDE") != "") {
 	//  controlPlaneEndpoint = os.GetEnv("API_CONTROL_OVERRIDE")
 	//}

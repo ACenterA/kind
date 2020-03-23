@@ -157,7 +157,9 @@ func (p *Provider) GetAPIServerEndpoint(cluster string) (string, error) {
 	)
 	lines, err := exec.OutputLines(cmd)
 	if err != nil {
-		return "", errors.Wrap(err, "failed to get api server port")
+		fmt.Println("Failed to get api server port, but lets use the static ip of 172.18.0.1")
+		return "172.18.0.1:6443", nil
+		// return "", errors.Wrap(err, "failed to get api server port")
 	}
 	if len(lines) != 1 {
 		return "", errors.Errorf("network details should only be one line, got %d lines", len(lines))
