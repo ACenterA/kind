@@ -184,6 +184,16 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
             })
 	  }
         }
+	/*
+	if (node.Iptables) {
+	    ipaddrArgs = append([]string{
+		"--cap-add", "NET_ADMIN",
+		"--cap-add", "NET_RAW",
+		},
+		ipaddrArgs...,
+	    )
+	}
+        */
         if (networkMode == "") {
           networkMode = "host"
 	}
@@ -228,15 +238,15 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
 
 	// convert mounts and port mappings to container run args
 	args = append(args, generateMountBindings(node.ExtraMounts...)...)
-        if (networkMode == "host") {
-		// ignore
-	} else {
+        //if (networkMode == "host") {
+//		// ignore
+//	} else {
 		mappingArgs, err := generatePortMappings(clusterIPFamily, node.ExtraPortMappings...)
 		if err != nil {
 			return nil, err
 		}
 		args = append(args, mappingArgs...)
-	}
+//	}
 
 	// finally, specify the image to run
 	return append(args, node.Image), nil

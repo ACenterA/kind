@@ -51,6 +51,7 @@ func convertv1alpha4Node(in *v1alpha4.Node, out *Node) {
 
 	out.KubeadmConfigPatches = in.KubeadmConfigPatches
 	out.NetworkHost = in.NetworkHost
+	out.Iptables = in.Iptables
 	out.Ip = in.Ip
 	out.Network = in.Network
 	out.ExtraMounts = make([]Mount, len(in.ExtraMounts))

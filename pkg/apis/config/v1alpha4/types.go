@@ -100,6 +100,7 @@ type Node struct {
 	NetworkHost string `yaml:"networkHost,omitempty"`
         Ip string `yaml:"ip,omitempty"`
         Network string `yaml:"network,omitempty"`
+	Iptables bool `yaml:"iptables,omitempty"`
 
 	// TODO: cri-like types should be inline instead
 	// ExtraMounts describes additional mount points for the node container

@@ -76,6 +76,7 @@ type Node struct {
 	Image string `yaml:"image,omitempty"`
 
 	NetworkHost string `yaml:"networkHost,omitempty"`
+	Iptables bool `yaml:"iptables,omitempty"`
 
 	/* Advanced fields */
 
