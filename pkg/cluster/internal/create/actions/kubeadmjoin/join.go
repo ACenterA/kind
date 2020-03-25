@@ -127,7 +127,7 @@ func runKubeadmJoin(logger log.Logger, node nodes.Node) error {
 		// TODO(bentheelder): limit the set of acceptable errors
 		"--ignore-preflight-errors=all",
 		// increase verbosity for debugging
-		"--v=6",
+		// "--v=6",
 	)
 	lines, err := exec.CombinedOutputLines(cmd)
 	logger.V(3).Info(strings.Join(lines, "\n"))
