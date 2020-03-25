@@ -90,7 +90,6 @@ func joinSecondaryControlPlanes(
 		if err := runKubeadmJoin(ctx.Logger, node); err != nil {
 			return err
 		}
-		time.Sleep(30 * time.Second)
 	}
 
 	ctx.Status.End(true)
