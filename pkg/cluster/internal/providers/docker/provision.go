@@ -253,10 +253,12 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
 }
 
 func runArgsForLoadBalancer(cfg *config.Cluster, name string, args []string) ([]string, error) {
+	// todo set mode host?
 	args = append([]string{
 		"run",
 		"--hostname", name, // make hostname match container name
 		"--name", name, // ... and set the container name
+		"--net", "acentera_backend", // hardcoded for now ...
 		// label the node with the role ID
 		"--label", fmt.Sprintf("%s=%s", nodeRoleLabelKey, constants.ExternalLoadBalancerNodeRoleValue),
 	},
