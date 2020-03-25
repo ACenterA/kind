@@ -240,6 +240,7 @@ func runArgsForLoadBalancer(cfg *config.Cluster, name string, args []string) ([]
 		"--hostname", name, // make hostname match container name
 		"--name", name, // ... and set the container name
 		"--net", "acentera_backend", // ... and set the container name
+		"--ip", "172.19.200.200", // hardcoded for now ...
 		// label the node with the role ID
 		"--label", fmt.Sprintf("%s=%s", nodeRoleLabelKey, constants.ExternalLoadBalancerNodeRoleValue),
 	},
