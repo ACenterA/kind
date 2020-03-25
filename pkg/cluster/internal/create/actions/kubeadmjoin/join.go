@@ -19,6 +19,7 @@ package kubeadmjoin
 
 import (
 	"strings"
+	"time"
 
 	"sigs.k8s.io/kind/pkg/cluster/constants"
 	"sigs.k8s.io/kind/pkg/cluster/nodes"
@@ -76,7 +77,10 @@ func joinSecondaryControlPlanes(
 	ctx *actions.ActionContext,
 	secondaryControlPlanes []nodes.Node,
 ) error {
+ 	
 	ctx.Status.Start("Joining more control-plane nodes 🎮")
+	time.Sleep(30 * time.Second)
+
 	defer ctx.Status.End(false)
 
 	// TODO(bentheelder): it's too bad we can't do this concurrently
@@ -86,6 +90,7 @@ func joinSecondaryControlPlanes(
 		if err := runKubeadmJoin(ctx.Logger, node); err != nil {
 			return err
 		}
+		time.Sleep(30 * time.Second)
 	}
 
 	ctx.Status.End(true)
