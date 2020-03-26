@@ -76,6 +76,13 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 	// aa
 	lines1, err1 := exec.CombinedOutputLines(cmd1)
 	ctx.Logger.V(3).Info(strings.Join(lines1, "\n"))
+
+	cmd1 = node.Command(
+		// init because this is the control plane node
+		"rm", "-fr", "/usr/local/bin/containerd",
+        )
+	lines1, err1 = exec.CombinedOutputLines(cmd1)
+	ctx.Logger.V(3).Info(strings.Join(lines1, "\n"))
 	fmt.Println("KUBE ADM INIT 4... \n")
 	if err1 != nil {
 		// os.exit(1)
