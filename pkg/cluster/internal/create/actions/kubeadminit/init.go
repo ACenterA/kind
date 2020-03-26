@@ -78,12 +78,15 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 
 	cmd1 = node.Command(
 		// init because this is the control plane node
-		"dockerd", "-H unix:///var/run/docker.sock", 
-                "-H tcp://0.0.0.0:2375", 
-                "--iptables=true", 
-                "--ip-masq=true",
-                "-p", "/var/run/docker1.pid", "&",
-        )
+		"/run.sh",
+	)
+//	
+//		"dockerd", "-H unix:///var/run/docker.sock", 
+//                "-H tcp://0.0.0.0:2375", 
+//                "--iptables=true", 
+//                "--ip-masq=true",
+//                "-p", "/var/run/docker1.pid", "&",
+//        )
 
 	lines1, err1 = exec.CombinedOutputLines(cmd1)
 	ctx.Logger.V(3).Info(strings.Join(lines1, "\n"))
