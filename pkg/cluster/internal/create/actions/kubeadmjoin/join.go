@@ -79,7 +79,13 @@ func joinSecondaryControlPlanes(
 ) error {
  	
 	ctx.Status.Start("Joining more control-plane nodes 🎮")
-	time.Sleep(30 * time.Second)
+	for _, node := range secondaryControlPlanes {
+		node := node // capture loop variable
+		if err := runKubeadmPull(ctx.Logger, node); err != nil {
+			return err
+		}
+	}
+	time.Sleep(5 * time.Second)
 
 	defer ctx.Status.End(false)
 
@@ -131,7 +137,25 @@ func runKubeadmJoin(logger log.Logger, node nodes.Node) error {
 		// TODO(bentheelder): limit the set of acceptable errors
 		"--ignore-preflight-errors=all",
 		// increase verbosity for debugging
-		// "--v=6",
+		"--v=6",
+	)
+	lines, err := exec.CombinedOutputLines(cmd)
+	logger.V(3).Info(strings.Join(lines, "\n"))
+	if err != nil {
+		return errors.Wrap(err, "failed to join node with kubeadm")
+	}
+
+	return nil
+}
+
+func runKubeadmPull(logger log.Logger, node nodes.Node) error {
+	// run kubeadm join
+	// TODO(bentheelder): this should be using the config file
+	cmd := node.Command(
+		"kubeadm", "config", "images", "pull",
+		// the join command uses the config file generated in a well known location
+		"--config", "/kind/kubeadm.conf",
+		"--v=6",
 	)
 	lines, err := exec.CombinedOutputLines(cmd)
 	logger.V(3).Info(strings.Join(lines, "\n"))

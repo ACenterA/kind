@@ -58,6 +58,22 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 	}
 
 	// run kubeadm
+	cmd1 := node.Command(
+		// init because this is the control plane node
+		"kubeadm", "config", "image", "pull",
+		"--config=/kind/kubeadm.conf",
+		"--skip-token-print",
+		// increase verbosity for debugging
+		"--v=6",
+        )
+	lines1, err1 := exec.CombinedOutputLines(cmd1)
+	ctx.Logger.V(3).Info(strings.Join(lines1, "\n"))
+	if err1 != nil {
+		// os.exit(1)
+		return errors.Wrap(err, "failed to image pull node with kubeadm")
+	}
+
+	// run kubeadm
 	cmd := node.Command(
 		// init because this is the control plane node
 		"kubeadm", "init",
@@ -69,7 +85,7 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 		"--config=/kind/kubeadm.conf",
 		"--skip-token-print",
 		// increase verbosity for debugging
-		// "--v=6",
+		"--v=6",
 	)
 	lines, err := exec.CombinedOutputLines(cmd)
 	ctx.Logger.V(3).Info(strings.Join(lines, "\n"))
