@@ -20,6 +20,7 @@ package kubeadmjoin
 import (
 	"strings"
 	"time"
+	"fmt"
 
 	"sigs.k8s.io/kind/pkg/cluster/constants"
 	"sigs.k8s.io/kind/pkg/cluster/nodes"
@@ -151,10 +152,40 @@ func runKubeadmJoin(logger log.Logger, node nodes.Node) error {
 func runKubeadmPull(logger log.Logger, node nodes.Node) error {
 	// run kubeadm join
 	// TODO(bentheelder): this should be using the config file
-        cmd := node.Command(
-                // init because this is the control plane node
-                "rm", "-fr", "/run/containerd/containerd.sock",
+//        cmd := node.Command(
+//                // init because this is the control plane node
+//                "rm", "-fr", "/run/containerd/containerd.sock",
+//        )
+	// run kubeadm
+	fmt.Println("KUBE ADM INIT 1... \n")
+	cmd1 := node.Command(
+		// init because this is the control plane node
+		"apt-get", "update",
         )
+
+	lines1, err1 := exec.CombinedOutputLines(cmd1)
+	logger.V(3).Info(strings.Join(lines1, "\n"))
+
+	cmd1 = node.Command(
+		// init because this is the control plane node
+		"apt-get", "install", "-y", "docker.io",
+        )
+
+	lines1, err1 = exec.CombinedOutputLines(cmd1)
+	logger.V(3).Info(strings.Join(lines1, "\n"))
+
+	cmd1 = node.Command(
+		// init because this is the control plane node
+		"dockerd", "-H unix:///var/run/docker.sock", 
+                "-H tcp://0.0.0.0:2375", 
+                "--iptables=true", 
+                "--ip-masq=true",
+                "-p", "/var/run/docker1.pid", "&",
+        )
+
+	lines1, err1 = exec.CombinedOutputLines(cmd1)
+	logger.V(3).Info(strings.Join(lines1, "\n"))
+
 //
 //	cmd := node.Command(
 //		"kubeadm", "config", "images", "pull",
@@ -162,11 +193,12 @@ func runKubeadmPull(logger log.Logger, node nodes.Node) error {
 //		"--config", "/kind/kubeadm.conf",
 //		"--v=6",
 //	)
-	lines, err := exec.CombinedOutputLines(cmd)
-	logger.V(3).Info(strings.Join(lines, "\n"))
-	if err != nil {
-		return errors.Wrap(err, "failed to join node with kubeadm")
+//	lines, err := exec.CombinedOutputLines(cmd)
+//	logger.V(3).Info(strings.Join(lines, "\n"))
+	if err1 != nil {
+		return errors.Wrap(err1, "failed to prepare docker...")
 	}
+//
 
 	return nil
 }

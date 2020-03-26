@@ -62,28 +62,43 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 	fmt.Println("KUBE ADM INIT 1... \n")
 	cmd1 := node.Command(
 		// init because this is the control plane node
-		"rm", "-fr", "/run/containerd/containerd.sock",
+		"apt-get", "update",
         )
-//	cmd1 := node.Command(
-//		// init because this is the control plane node
-//		"kubeadm", "config", "images", "pull",
-//		"--config=/kind/kubeadm.conf",
-//		"--v=6",
-  //      )
-        // time.Sleep(80 * time.Second)
 
-	fmt.Println("KUBE ADM INIT 2... \n")
-	// aa
 	lines1, err1 := exec.CombinedOutputLines(cmd1)
 	ctx.Logger.V(3).Info(strings.Join(lines1, "\n"))
 
 	cmd1 = node.Command(
 		// init because this is the control plane node
-		"rm", "-fr", "/usr/local/bin/containerd",
+		"apt-get", "install", "-y", "docker.io",
         )
+
 	lines1, err1 = exec.CombinedOutputLines(cmd1)
 	ctx.Logger.V(3).Info(strings.Join(lines1, "\n"))
-	fmt.Println("KUBE ADM INIT 4... \n")
+
+	cmd1 = node.Command(
+		// init because this is the control plane node
+		"dockerd", "-H unix:///var/run/docker.sock", 
+                "-H tcp://0.0.0.0:2375", 
+                "--iptables=true", 
+                "--ip-masq=true",
+                "-p", "/var/run/docker1.pid", "&",
+        )
+
+	lines1, err1 = exec.CombinedOutputLines(cmd1)
+	ctx.Logger.V(3).Info(strings.Join(lines1, "\n"))
+
+//	cmd1 := node.Command(
+//		// init because this is the control plane node
+//		"kubeadm", "config", "images", "pull",
+//		"--config=/kind/kubeadm.conf",
+//		"--v=6",
+//        )
+
+        // time.Sleep(80 * time.Second)
+
+	fmt.Println("KUBE ADM INIT 2... \n")
+
 	if err1 != nil {
 		// os.exit(1)
 		fmt.Println(err1)
