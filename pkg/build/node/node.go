@@ -319,7 +319,7 @@ func (c *BuildContext) buildImage(dir string) error {
 
 	// ensure we don't fail if swap is enabled on the host
 	if err = execInBuild("/bin/sh", "-c",
-		`echo "KUBELET_EXTRA_ARGS=" >> /etc/default/kubelet`,
+		`echo "KUBELET_EXTRA_ARGS=--container-runtime=docker" >> /etc/default/kubelet`,
 	); err != nil {
 		c.logger.Errorf("Image build Failed! Failed to add kubelet extra args: %v", err)
 		return err
