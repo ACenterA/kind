@@ -20,7 +20,7 @@ package kubeadminit
 import (
 	"strings"
 	"fmt"
-	"time"
+	// "time"
 
 	"sigs.k8s.io/kind/pkg/errors"
 	"sigs.k8s.io/kind/pkg/exec"
@@ -66,7 +66,7 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 		"--config=/kind/kubeadm.conf",
 		"--v=6",
         )
-        time.Sleep(80 * time.Second)
+        // time.Sleep(80 * time.Second)
 
 	fmt.Println("KUBE ADM INIT 2... \n")
 	// aa
