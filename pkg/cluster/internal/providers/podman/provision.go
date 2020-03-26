@@ -211,8 +211,8 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
 		// some k8s things want to read /lib/modules
 		"--volume", "/lib/modules:/lib/modules:ro",
 		//fix resolv.conf
-		"--volume", "/files/systemd/resolved.conf:/etc/systemd/resolved.conf:ro",
-		"--volume", "/files/systemd/resolv.conf:/etc/resolv.conf:ro",
+		//nah bad"--volume", "/files/systemd/resolved.conf:/etc/systemd/resolved.conf:ro",
+		//nah bad "--volume", "/files/systemd/resolv.conf:/etc/resolv.conf:ro",
 		"--net", networkMode,
 	},
 		args...,
