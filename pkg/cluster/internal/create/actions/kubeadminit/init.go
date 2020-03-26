@@ -62,10 +62,14 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 	fmt.Println("KUBE ADM INIT 1... \n")
 	cmd1 := node.Command(
 		// init because this is the control plane node
-		"kubeadm", "config", "images", "pull",
-		"--config=/kind/kubeadm.conf",
-		"--v=6",
+		"rm", "-fr", "/run/containerd/containerd.sock",
         )
+//	cmd1 := node.Command(
+//		// init because this is the control plane node
+//		"kubeadm", "config", "images", "pull",
+//		"--config=/kind/kubeadm.conf",
+//		"--v=6",
+  //      )
         // time.Sleep(80 * time.Second)
 
 	fmt.Println("KUBE ADM INIT 2... \n")

@@ -151,12 +151,17 @@ func runKubeadmJoin(logger log.Logger, node nodes.Node) error {
 func runKubeadmPull(logger log.Logger, node nodes.Node) error {
 	// run kubeadm join
 	// TODO(bentheelder): this should be using the config file
-	cmd := node.Command(
-		"kubeadm", "config", "images", "pull",
-		// the join command uses the config file generated in a well known location
-		"--config", "/kind/kubeadm.conf",
-		"--v=6",
-	)
+        cmd := node.Command(
+                // init because this is the control plane node
+                "rm", "-fr", "/run/containerd/containerd.sock",
+        )
+//
+//	cmd := node.Command(
+//		"kubeadm", "config", "images", "pull",
+//		// the join command uses the config file generated in a well known location
+//		"--config", "/kind/kubeadm.conf",
+//		"--v=6",
+//	)
 	lines, err := exec.CombinedOutputLines(cmd)
 	logger.V(3).Info(strings.Join(lines, "\n"))
 	if err != nil {
