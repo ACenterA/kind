@@ -19,7 +19,7 @@ package kubeadminit
 
 import (
 	"strings"
-	// "os"
+	"fmt"
 
 	"sigs.k8s.io/kind/pkg/errors"
 	"sigs.k8s.io/kind/pkg/exec"
@@ -58,20 +58,22 @@ func (a *action) Execute(ctx *actions.ActionContext) error {
 	}
 
 	// run kubeadm
+	fmt.Println("KUBE ADM INIT 1... \n")
 	cmd1 := node.Command(
 		// init because this is the control plane node
 		"kubeadm", "config", "image", "pull",
 		"--config=/kind/kubeadm.conf",
-		"--skip-token-print",
-		// increase verbosity for debugging
-		"--v=6",
+		// "--v=6",
         )
+	fmt.Println("KUBE ADM INIT 2... \n")
 	lines1, err1 := exec.CombinedOutputLines(cmd1)
 	ctx.Logger.V(3).Info(strings.Join(lines1, "\n"))
+	fmt.Println("KUBE ADM INIT 4... \n")
 	if err1 != nil {
 		// os.exit(1)
 		return errors.Wrap(err, "failed to image pull node with kubeadm")
 	}
+	fmt.Println("KUBE ADM INIT 3... \n")
 
 	// run kubeadm
 	cmd := node.Command(
