@@ -201,7 +201,7 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
 	if (node.Cpu == "") {
 	    ipaddrArgs = append([]string{
 		"--cpuset-cpus", node.Cpu,
-		"--cpus", "0.75",
+		// "--cpus", "0.75",
 		},
 		ipaddrArgs...,
 	    )
