@@ -101,7 +101,7 @@ type Node struct {
         Ip string `yaml:"ip,omitempty"`
         Network string `yaml:"network,omitempty"`
 	Iptables bool `yaml:"iptables,omitempty"`
-        Cpu int32 `yaml:"cpu,omitempty"`
+        Cpu string `yaml:"cpu,omitempty"`
 
 	// TODO: cri-like types should be inline instead
 	// ExtraMounts describes additional mount points for the node container

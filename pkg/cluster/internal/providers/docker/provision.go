@@ -198,9 +198,9 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
 	    )
 	}
         */
-	if (fmt.Sprintf("%v",node.Cpu) != "0") {
+	if (node.Cpu == "") {
 	    ipaddrArgs = append([]string{
-		"--cpu", fmt.Sprintf("%v", (node.Cpu-1)),
+		"--cpuset-cpus", node.Cpu,
 		"--cpus", "0.75",
 		},
 		ipaddrArgs...,
