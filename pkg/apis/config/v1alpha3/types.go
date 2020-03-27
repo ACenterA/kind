@@ -77,6 +77,7 @@ type Node struct {
 
 	NetworkHost string `yaml:"networkHost,omitempty"`
 	Iptables bool `yaml:"iptables,omitempty"`
+        Cpu int32 `yaml:"cpu,omitempty"`
 
 	/* Advanced fields */
 

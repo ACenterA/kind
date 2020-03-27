@@ -198,6 +198,14 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
 	    )
 	}
         */
+	if (fmt.Sprintf("%v",node.Cpu) != "0") {
+	    ipaddrArgs = append([]string{
+		"--cpu", fmt.Sprintf("%v", (node.Cpu-1)),
+		"--cpus", "0.75",
+		},
+		ipaddrArgs...,
+	    )
+	}
         if (networkMode == "") {
           networkMode = "host"
 	}
