@@ -226,7 +226,7 @@ func runArgsForNode(hostmode bool, node *config.Node, clusterIPFamily config.Clu
 		// filesystem, which is not only better for performance, but allows
 		// running kind in kind for "party tricks"
 		// (please don't depend on doing this though!)
-		"--volume", "/var",
+		"--volume", "/var/lib",
 		// some k8s things want to read /lib/modules
 		"--volume", "/lib/modules:/lib/modules:ro",
 		//fix resolv.conf
