@@ -20,13 +20,13 @@ import (
 	"fmt"
 	"os"
 	"net"
-	"path/filepath"
+	// "path/filepath"
 	"strings"
 
 	"sigs.k8s.io/kind/pkg/cluster/constants"
 	"sigs.k8s.io/kind/pkg/errors"
 	"sigs.k8s.io/kind/pkg/exec"
-	"sigs.k8s.io/kind/pkg/fs"
+	// "sigs.k8s.io/kind/pkg/fs"
 
 	"sigs.k8s.io/kind/pkg/cluster/internal/loadbalancer"
 	"sigs.k8s.io/kind/pkg/cluster/internal/providers/provider/common"
@@ -72,8 +72,10 @@ func planCreation(cluster string, cfg *config.Cluster) (createContainerFuncs []f
 		name := nodeNamer(string(node.Role)) // name the node
 
 		// fixup relative paths, docker can only handle absolute paths
-		for i := range node.ExtraMounts {
-			hostPath := node.ExtraMounts[i].HostPath
+		//for i := range node.ExtraMounts {
+			// hostPath := node.ExtraMounts[i].HostPath
+			//TEMP FIX
+			/*
 			if !fs.IsAbs(hostPath) {
 				absHostPath, err := filepath.Abs(hostPath)
 				if err != nil {
@@ -81,7 +83,8 @@ func planCreation(cluster string, cfg *config.Cluster) (createContainerFuncs []f
 				}
 				node.ExtraMounts[i].HostPath = absHostPath
 			}
-		}
+			*/
+		//}
 
 		// plan actual creation based on role
 		switch node.Role {
